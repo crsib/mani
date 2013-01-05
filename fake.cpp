@@ -1,0 +1,1 @@
+// This file is here only for testing purposes. It makes CMake to generate the valid C++ project

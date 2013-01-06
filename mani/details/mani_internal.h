@@ -16,6 +16,26 @@ extern "C"
 #	endif
 #endif
 
+#ifndef MANI_NO_ATOMICS
+#	ifdef PLATFORM_WIN_THREADS
+#		include <Windows.h>
+#		define  MANI_ATOMIC_INC( ptr ) InterlockedIncrement( ptr )
+#		define  MANI_ATOMIC_DEC( ptr ) InterlockedDecrement( ptr )
+#	elif defined(PLATFORM_POSIX_THREADS)
+#		define  MANI_ATOMIC_INC( ptr ) __sync_add_and_fetch ( ptr, 1 )
+#		define  MANI_ATOMIC_DEC( ptr ) __sync_sub_and_fetch ( ptr, 1 )
+#	endif
+#else
+template<typename Type>
+inline Type __mani_inc( Type volatile* ptr ) { *ptr += 1; return *ptr; }
+
+template<typename Type>
+inline Type __mani_dec( Type volatile* ptr ) { *ptr -= 1; return *ptr; }
+
+#	define  MANI_ATOMIC_INC( ptr ) __mani_inc( ptr )
+#	define  MANI_ATOMIC_DEC( ptr ) __mani_dec( ptr )
+#endif
+
 #include <cassert>
 #include <cstdlib>
 

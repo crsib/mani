@@ -8,10 +8,16 @@ SET( mani_INCLUDES
 	./mani/details/mani_internal.h
 	./mani/details/RegistryReference.h
 	./mani/details/thread_local.h
+	./mani/details/StackGuard.h
 
 	./mani/details/impl/Interpreter.h
+	./mani/details/impl/RegistryReference.h
+	./mani/details/impl/ValueReference.h
+	./mani/details/impl/FunctionReference.h
+	./mani/details/impl/TableReference.h
 
-	./mani/Function.h
+	./mani/FunctionReference.h
+	./mani/TableReference.h
 	./mani/Interpreter.h
 	./mani/mani.h
 	./mani/Result.h
@@ -19,7 +25,8 @@ SET( mani_INCLUDES
 )
 
 source_group( "mani" FILES 
-	mani/Function.h
+	./mani/FunctionReference.h
+	./mani/TableReference.h
 	./mani/Interpreter.h
 	./mani/mani.h
 	./mani/Result.h
@@ -32,10 +39,15 @@ source_group( "mani\\details" FILES
 	./mani/details/mani_internal.h
 	./mani/details/RegistryReference.h
 	./mani/details/thread_local.h
+	./mani/details/StackGuard.h
 )
 
 source_group( "mani\\details\\impl" FILES
 	./mani/details/impl/Interpreter.h
+	./mani/details/impl/RegistryReference.h
+	./mani/details/impl/ValueReference.h
+	./mani/details/impl/FunctionReference.h
+	./mani/details/impl/TableReference.h
 )
 
 include_directories( . )

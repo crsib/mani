@@ -1,3 +1,16 @@
+﻿//  ==================================================================================
+//
+//  File:        ValueReference.h
+//  Description:
+//  Comments:
+//  Author:      Dmitry Vedenko
+//  E-mail:      vedenko@gmail.com
+//
+//  The source code is licensed under the BSD 2-clause license. 
+//  Redistribution and use in source and binary forms, with or without modification, 
+//  are permitted provided that the requirements in the LICENSE file provided are met. 
+//
+//  ==================================================================================
 #ifndef mani_impl_ValueReference_h__
 #define mani_impl_ValueReference_h__
 
@@ -6,6 +19,7 @@
 #include "mani/TableReference.h"
 #include "mani/FunctionReference.h"
 #include "mani/details/StackGuard.h"
+#include "mani/Result.h"
 
 namespace mani
 {
@@ -169,6 +183,17 @@ namespace mani
 		lua_pushnil( lua );
 
 		return ValueReference<AllocationPolicy>( vm, -1 );
+	}
+
+	template<typename AllocationPolicy>
+	ValueReference<AllocationPolicy>::ValueReference( const Result<AllocationPolicy>& result, size_t idx  )
+	{
+		ValueReference<AllocationPolicy> ref = result.get( idx );
+
+		m_VirtualMachine = ref.m_VirtualMachine;
+		m_Reference = ref.m_Reference;
+		m_Type = ref.m_Type;
+		m_IsCFunction = ref.m_IsCFunction;
 	}
 
 	template<typename AllocationPolicy>

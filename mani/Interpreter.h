@@ -1,3 +1,16 @@
+﻿//  ==================================================================================
+//
+//  File:        Interpreter.h
+//  Description:
+//  Comments:
+//  Author:      Dmitry Vedenko
+//  E-mail:      vedenko@gmail.com
+//
+//  The source code is licensed under the BSD 2-clause license. 
+//  Redistribution and use in source and binary forms, with or without modification, 
+//  are permitted provided that the requirements in the LICENSE file provided are met. 
+//
+//  ==================================================================================
 #ifndef mani_Interpreter_h__
 #define mani_Interpreter_h__
 
@@ -7,6 +20,7 @@
 #include "mani/ValueReference.h"
 #include "mani/TableReference.h"
 #include "mani/FunctionReference.h"
+#include "mani/Result.h"
 
 namespace mani
 {
@@ -42,6 +56,17 @@ namespace mani
 		typedef ValueReference<AllocationPolicy> Value;
 		typedef TableReference<AllocationPolicy> Table;
 		typedef FunctionReference<AllocationPolicy> Function;
+		typedef Result<AllocationPolicy> Result;
+
+		Result          doFile( const char* path );
+		Result          doFile( const char* path, const Table& env );
+
+		Result          doString( const char* string );
+		Result          doString( const char* string, const Table& env );
+
+		Result          doBuffer( const char* string, size_t size );
+		Result          doBuffer( const char* string, size_t size, const Table& env );
+
 	private:  
 		static void*    lua_alloc(void *ud, void *ptr, size_t osize, size_t nsize);
 

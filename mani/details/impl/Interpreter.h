@@ -1,7 +1,23 @@
+﻿//  ==================================================================================
+//
+//  File:        Interpreter.h
+//  Description:
+//  Comments:
+//  Author:      Dmitry Vedenko
+//  E-mail:      vedenko@gmail.com
+//
+//  The source code is licensed under the BSD 2-clause license. 
+//  Redistribution and use in source and binary forms, with or without modification, 
+//  are permitted provided that the requirements in the LICENSE file provided are met. 
+//
+//  ==================================================================================
 #ifndef mani_impl_Interpreter_h__
 #define mani_impl_Interpreter_h__
 
 #include "mani/Interpreter.h"
+#include "mani/details/StackGuard.h"
+
+#include <cstring>
 
 namespace mani
 {
@@ -80,6 +96,93 @@ namespace mani
 		}
 
 		return state;
+	}
+
+	namespace details
+	{
+		inline const char* get_buffer_id( const char* name, size_t length )
+		{
+			static char __id[16];
+			size_t max_idx = length > 13 ? 13 : length;
+			size_t idx = 0;
+			for( ; idx < max_idx; ++idx )
+				__id[idx] = name[idx];
+			__id[idx++] = '.'; __id[idx++] = '.'; __id[idx++] = '.';
+			__id[idx] = '\0';
+			return __id;
+		}
+	}
+
+	template<typename AllocationPolicy>
+	typename InterpreterBase<AllocationPolicy>::Result mani::InterpreterBase<AllocationPolicy>::doBuffer( const char* string, size_t size, const Table& env )
+	{
+		lua_State* lua = getVirtualMachine();
+		details::StackGuard guard( lua );
+		int top = lua_gettop( lua );
+
+		bool error_occured = 0 != luaL_loadbuffer( lua, string, size, details::get_buffer_id( string, size ) );
+		if( !error_occured )
+		{
+			env.push();
+			lua_setfenv( lua, -2 );
+			error_occured = 0 != lua_pcall( lua, 0, LUA_MULTRET, 0);
+		}
+
+		return Result( *this, lua_gettop( lua ) - top, error_occured );
+	}
+
+	template<typename AllocationPolicy>
+	typename InterpreterBase<AllocationPolicy>::Result mani::InterpreterBase<AllocationPolicy>::doBuffer( const char* string, size_t size )
+	{
+		lua_State* lua = getVirtualMachine();
+		details::StackGuard guard( lua );
+		int top = lua_gettop( lua );
+
+		bool error_occured = 0 != luaL_loadbuffer( lua, string, size, details::get_buffer_id( string, size ) );
+		if( !error_occured )
+			error_occured = 0 != lua_pcall( lua, 0, LUA_MULTRET, 0);
+
+		return Result( *this, lua_gettop( lua ) - top, error_occured );
+	}
+
+	template<typename AllocationPolicy>
+	typename InterpreterBase<AllocationPolicy>::Result mani::InterpreterBase<AllocationPolicy>::doString( const char* string, const Table& env )
+	{ return doBuffer( string, strlen( string ), env ); }
+
+	template<typename AllocationPolicy>
+	typename InterpreterBase<AllocationPolicy>::Result mani::InterpreterBase<AllocationPolicy>::doString( const char* string )
+	{ return doBuffer( string, strlen( string ) ); }
+
+	template<typename AllocationPolicy>
+	typename InterpreterBase<AllocationPolicy>::Result mani::InterpreterBase<AllocationPolicy>::doFile( const char* path, const Table& env )
+	{
+		lua_State* lua = getVirtualMachine();
+		details::StackGuard guard( lua );
+		int top = lua_gettop( lua );
+
+		bool error_occured = 0 != luaL_loadfile( lua, path );
+		if( !error_occured )
+		{
+			env.push();
+			lua_setfenv( lua, -2 );
+			error_occured = 0 != lua_pcall( lua, 0, LUA_MULTRET, 0);
+		}
+
+		return Result( *this, lua_gettop( lua ) - top, error_occured );
+	}
+
+	template<typename AllocationPolicy>
+	typename InterpreterBase<AllocationPolicy>::Result mani::InterpreterBase<AllocationPolicy>::doFile( const char* path )
+	{
+		lua_State* lua = getVirtualMachine();
+		details::StackGuard guard( lua );
+		int top = lua_gettop( lua );
+
+		bool error_occured = 0 != luaL_loadfile( lua, path );
+		if( !error_occured )
+			error_occured = 0 != lua_pcall( lua, 0, LUA_MULTRET, 0);
+
+		return Result( *this, lua_gettop( lua ) - top, error_occured );
 	}
 }
 #endif // Interpreter_h__

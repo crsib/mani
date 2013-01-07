@@ -1,3 +1,16 @@
+﻿//  ==================================================================================
+//
+//  File:        default_stack_ops.h
+//  Description:
+//  Comments:
+//  Author:      Dmitry Vedenko
+//  E-mail:      vedenko@gmail.com
+//
+//  The source code is licensed under the BSD 2-clause license. 
+//  Redistribution and use in source and binary forms, with or without modification, 
+//  are permitted provided that the requirements in the LICENSE file provided are met. 
+//
+//  ==================================================================================
 #ifndef mani_details_default_stack_ops_h__
 #define mani_details_default_stack_ops_h__
 
@@ -57,9 +70,9 @@ namespace mani
 	GET_FROM_STACK( lua_CFunction, lua_tocfunction );
 	GET_FROM_STACK( void*,         lua_touserdata );
 
-	GET_FROM_STACK( char*,         lua_tostring );
-	GET_FROM_STACK( const char*,   lua_tostring );
-
+	template<> inline
+	const char*    get_from_stack<const char*>( lua_State* state ) { return lua_isnil( state, -1 ) ? "" : (const char*)lua_tostring( state, -1 ); }
+	
 #undef PUSH_TO_STACK
 #undef GET_FROM_STACK
 }

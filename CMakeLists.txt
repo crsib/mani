@@ -15,6 +15,7 @@ SET( mani_INCLUDES
 	./mani/details/impl/ValueReference.h
 	./mani/details/impl/FunctionReference.h
 	./mani/details/impl/TableReference.h
+	./mani/details/impl/Result.h
 
 	./mani/FunctionReference.h
 	./mani/TableReference.h
@@ -48,6 +49,7 @@ source_group( "mani\\details\\impl" FILES
 	./mani/details/impl/ValueReference.h
 	./mani/details/impl/FunctionReference.h
 	./mani/details/impl/TableReference.h
+	./mani/details/impl/Result.h
 )
 
 include_directories( . )

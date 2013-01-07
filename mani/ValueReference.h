@@ -1,3 +1,16 @@
+﻿//  ==================================================================================
+//
+//  File:        ValueReference.h
+//  Description:
+//  Comments:
+//  Author:      Dmitry Vedenko
+//  E-mail:      vedenko@gmail.com
+//
+//  The source code is licensed under the BSD 2-clause license. 
+//  Redistribution and use in source and binary forms, with or without modification, 
+//  are permitted provided that the requirements in the LICENSE file provided are met. 
+//
+//  ==================================================================================
 #ifndef mani_ValueReference_h__
 #define mani_ValueReference_h__
 
@@ -14,8 +27,16 @@ namespace mani
 	template<typename AllocationPolicy>
 	class TableReference;
 
+	template<typename AllocationPolicy>
+	class   Result;
+
 	template<typename Type>
-	Type    get_from_stack( lua_State* state );
+	Type    get_from_stack( lua_State* state )
+	{
+		Type obj;
+		get_from_stack( state, &obj );
+		return obj;
+	}
 
 	template<typename AllocationPolicy>
 	class ValueReference : public details::mani_object<AllocationPolicy>
@@ -41,6 +62,8 @@ namespace mani
 		ValueReference& operator = ( const ValueReference& rhs );
 
 		ValueReference( const InterpreterBase<AllocationPolicy>& vm, int stack_pos );
+
+		ValueReference( const Result<AllocationPolicy>& result, size_t idx = 0 );
 
 		template<typename Type>
 		static ValueReference<AllocationPolicy> new_value( const InterpreterBase<AllocationPolicy>& vm, const Type& initializer );

@@ -223,7 +223,7 @@ namespace mani
 	template<typename AllocationPolicy>
 	TableReference<AllocationPolicy>& TableReference<AllocationPolicy>::operator=( const ValueReference<AllocationPolicy>& rhs )
 	{
-		TableReference<AllocationPolicy>::operator= ( rhs );
+		ValueReference<AllocationPolicy>::operator= ( rhs );
 		m_IsGlobal = false;
 		return *this;
 	}
@@ -236,7 +236,7 @@ namespace mani
 	template<typename AllocationPolicy>
 	TableReference<AllocationPolicy>& TableReference<AllocationPolicy>::operator=( const TableReference& rhs )
 	{
-		TableReference<AllocationPolicy>::operator= ( rhs );
+		ValueReference<AllocationPolicy>::operator= ( rhs );
 		m_IsGlobal = rhs.m_IsGlobal;
 		return *this;
 	}

@@ -80,6 +80,8 @@ namespace mani
 		ref_t          m_Reference;
 		Type           m_Type;
 		bool           m_IsCFunction;
+
+		friend         void push_to_stack( lua_State* state, const ValueReference<AllocationPolicy>& val ) { val.m_Reference.push(state); }
 	};
 }
 

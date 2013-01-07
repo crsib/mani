@@ -1,1 +1,14 @@
-// This file is here only for testing purposes. It makes CMake to generate the valid C++ project
+﻿//  ==================================================================================
+//
+//  File:        fake.cpp
+//  Description:
+//  Comments:
+//  Author:      Dmitry Vedenko
+//  E-mail:      vedenko@gmail.com
+//
+//  The source code is licensed under the BSD 2-clause license. 
+//  Redistribution and use in source and binary forms, with or without modification, 
+//  are permitted provided that the requirements in the LICENSE file provided are met. 
+//
+//  ==================================================================================
+

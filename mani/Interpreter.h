@@ -1,8 +1,12 @@
-#ifndef Interpreter_h__
-#define Interpreter_h__
+#ifndef mani_Interpreter_h__
+#define mani_Interpreter_h__
 
 #include "mani/details/mani_internal.h"
 #include "mani/details/thread_local.h"
+
+#include "mani/ValueReference.h"
+#include "mani/TableReference.h"
+#include "mani/FunctionReference.h"
 
 namespace mani
 {
@@ -34,6 +38,10 @@ namespace mani
 
 		lua_State*      getDefaultVirtualMachine() const { return m_LuaVM; }
 		lua_State*      getVirtualMachine() const;
+
+		typedef ValueReference<AllocationPolicy> Value;
+		typedef TableReference<AllocationPolicy> Table;
+		typedef FunctionReference<AllocationPolicy> Function;
 	private:  
 		static void*    lua_alloc(void *ud, void *ptr, size_t osize, size_t nsize);
 
@@ -43,8 +51,6 @@ namespace mani
 		bool              m_OwnsState;
 	};
 }
-
-#include "mani/details/impl/Interpreter.h"
 
 #include "mani/details/DefaultAllocatorPolicy.h"
 

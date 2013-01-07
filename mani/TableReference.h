@@ -74,6 +74,7 @@ namespace mani
 		bool      m_IsGlobal; // If this is true - then all the accessors will use LUA_GLOABALSINDEX
 
 		int                              prepare( lua_State* lua ) const;
+		int                              prepareSet( lua_State* lua ) const;
 	};
 }
 

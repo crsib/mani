@@ -15,7 +15,7 @@ namespace mani
 		lua_State* lua = m_VirtualMachine->getVirtualMachine();
 		details::StackGuard guard(lua);
 
-		int idx = prepare( lua );
+		int idx = prepareSet( lua );
 		
 		static const char* __meta_keys[MethodsCount] = { "__add", "__sub", "__mul", "__div", "__unm", "__concat", "__eq", "__lt", "__le", "__tostring", "__index", "__newindex", "__gc" };
 
@@ -38,7 +38,7 @@ namespace mani
 		lua_State* lua = m_VirtualMachine->getVirtualMachine();
 		details::StackGuard guard(lua);
 
-		int idx = prepare( lua );
+		int idx = prepareSet( lua );
 		push_to_stack( lua, key );
 		push_to_stack( lua, value );
 
@@ -58,7 +58,7 @@ namespace mani
 		lua_State* lua = m_VirtualMachine->getVirtualMachine();
 		details::StackGuard guard(lua);
 
-		int idx = prepare( lua );
+		int idx = prepareSet( lua );
 		push_to_stack( lua, key );
 		value.m_Reference.push( lua );
 
@@ -77,7 +77,7 @@ namespace mani
 		lua_State* lua = m_VirtualMachine->getVirtualMachine();
 		details::StackGuard guard(lua);
 
-		int idx = prepare( lua );
+		int idx = prepareSet( lua );
 		key.push();
 		value.push( );
 
@@ -194,6 +194,15 @@ namespace mani
 			return LUA_GLOBALSINDEX;
 		m_Reference.push( lua );
 		return -2;
+	}
+
+	template<typename AllocationPolicy>
+	int TableReference<AllocationPolicy>::prepareSet( lua_State* lua ) const
+	{
+		if( m_IsGlobal )
+			return LUA_GLOBALSINDEX;
+		m_Reference.push( lua );
+		return -3;
 	}
 
 	template<typename AllocationPolicy>

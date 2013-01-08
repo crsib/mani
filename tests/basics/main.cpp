@@ -74,6 +74,10 @@ int main( int, char** )
 	assert( lua.doString("return 2+2").get<int>() == 4 );
 	assert( lua.doString("ab + cd").isError() );
 
+	lua.doString("function sum( a,b ) return a+b end");
+	mani::Interpreter::Function sum = mani::Interpreter::Table::global( lua ).getField( "sum" );
+	assert( sum( 2, 3 ).get<int>() == 5 );
+
 	assert( lua_gettop(lua.getDefaultVirtualMachine()) == 0);
 	return 0;
 }

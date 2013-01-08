@@ -31,7 +31,7 @@ namespace mani
 		InterpreterBase& operator = ( const InterpreterBase& );
 	public:
 		InterpreterBase( );
-		InterpreterBase( lua_State* lua );
+		explicit InterpreterBase( lua_State* lua );
 		~InterpreterBase( );
 
 		enum StandardLibraries

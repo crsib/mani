@@ -103,7 +103,7 @@ namespace mani
 		inline const char* get_buffer_id( const char* name, size_t length )
 		{
 			static char __id[16];
-			size_t max_idx = length > 13 ? 13 : length;
+			size_t max_idx = length > 12 ? 12 : length;
 			size_t idx = 0;
 			for( ; idx < max_idx; ++idx )
 				__id[idx] = name[idx];

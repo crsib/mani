@@ -23,6 +23,8 @@ namespace mani
 		{
 			struct NullType {};
 			struct EmptyType {};
+			struct true_type {};
+			struct false_type {};
 
 			template<int v>
 			struct Int2Type { enum { value = v}; };
@@ -115,13 +117,13 @@ namespace mani
 			template <bool flag, typename T, typename U>
 			struct Select
 			{
-				typedef T Result;
+				typedef T result_t;
 			};
 
 			template <typename T, typename U>
 			struct Select<false, T, U>
 			{
-				typedef U Result;
+				typedef U result_t;
 			};
 		}
 	}

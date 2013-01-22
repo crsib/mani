@@ -119,17 +119,17 @@ namespace mani
 					typedef const typename H::left_base_t ConstLeftBase;
 
 					typedef typename Select<is_const, ConstLeftBase, 
-						typename H::left_base_t>::Result LeftBase;
+						typename H::left_base_t>::result_t left_base_t;
 
 					typedef typename Select<is_tuple, ElementType, 
-						UnitType>::Result UnqualifiedResultType;
+						UnitType>::result_t UnqualifiedResultType;
 
 					typedef typename Select<is_const, const UnqualifiedResultType,
-						UnqualifiedResultType>::Result ResultType;
+						UnqualifiedResultType>::result_t ResultType;
 
 					static ResultType& Do(H& obj)
 					{
-						LeftBase& leftBase = obj;
+						left_base_t& leftBase = obj;
 						return leftBase;
 					}
 				};
@@ -137,7 +137,7 @@ namespace mani
 				template <class H, unsigned int i>
 				struct FieldHelper
 				{
-					typedef typename TypeAt<typename H::TList, i>::Result ElementType;
+					typedef typename TypeAt<typename H::TList, i>::result_t ElementType;
 					typedef typename H::template Rebind<ElementType>::Result UnitType;
 
 					enum
@@ -146,21 +146,21 @@ namespace mani
 						is_const = Traits<H>::is_const
 					};
 
-					typedef const typename H::RightBase ConstRightBase;
+					typedef const typename H::right_base_t ConstRightBase;
 
 					typedef typename Select<is_const, ConstRightBase, 
-						typename H::RightBase>::Result RightBase;
+						typename H::right_base_t>::result_t right_base_t;
 
 					typedef typename Select<is_tuple, ElementType, 
-						UnitType>::Result UnqualifiedResultType;
+						UnitType>::result_t UnqualifiedResultType;
 
 					typedef typename Select<is_const, const UnqualifiedResultType,
-						UnqualifiedResultType>::Result ResultType;
+						UnqualifiedResultType>::result_t ResultType;
 
 					static ResultType& Do(H& obj)
 					{
-						RightBase& rightBase = obj;
-						return FieldHelper<RightBase, i - 1>::Do(rightBase);
+						right_base_t& rightBase = obj;
+						return FieldHelper<right_base_t, i - 1>::Do(rightBase);
 					}
 				};
 			}
@@ -200,7 +200,8 @@ namespace mani
 				make_tuple( typename Traits<T1>::parameter_type_t p1, typename Traits<T2>::parameter_type_t p2, typename Traits<T3>::parameter_type_t p3 )
 			{
 				Tuple<typename mani::details::type_utils::template Vector< T1, T2, T3 >::result_t> tuple;
-				Field<0>( tuple ) = p1;	Field<1>( tuple ) = p2;
+				Field<0>( tuple ) = p1;	
+				Field<1>( tuple ) = p2;
 				Field<2>( tuple ) = p3;
 				return tuple;
 			}

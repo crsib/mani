@@ -2117,7 +2117,7 @@ namespace mani
 				enum { is_fundamental     = is_std_fundamental || is_arith };
 
 				typedef typename Select<is_std_arith || is_pointer || is_member_pointer, T, 
-					typename internal::AddParameterType<T>::Result>::Result 
+					typename internal::AddParameterType<T>::Result>::result_t 
 					parameter_type_t;
 			};
 		}

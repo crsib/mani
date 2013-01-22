@@ -1,6 +1,6 @@
 ﻿//  ==================================================================================
 //
-//  File:        Result.h
+//  File:        result_t.h
 //  Description:
 //  Comments:
 //  Author:      Dmitry Vedenko

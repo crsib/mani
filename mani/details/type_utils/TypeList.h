@@ -65,6 +65,12 @@ namespace mani
 				enum { result = 0 };
 			};
 
+			template< >
+			struct Length< TypeList<NullType,NullType> >
+			{
+				enum { result = 0 };
+			};
+
 			template< typename T1, typename T2 >
 			struct Length< TypeList<T1,T2> >
 			{
@@ -83,7 +89,7 @@ namespace mani
 			template< typename T1, typename T2, int idx >
 			struct TypeAt< TypeList<T1,T2>, idx >
 			{
-				typedef typename TypeAt< T2, idx - 1> result_t;
+				typedef typename TypeAt< T2, idx - 1>::result_t result_t;
 			};
 
 			template <class TList, class T> 

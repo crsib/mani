@@ -31,10 +31,10 @@ namespace mani
 	class   Result;
 
 	template<typename Type>
-	Type    get_from_stack( lua_State* state )
+	Type    get_from_stack( lua_State* state, int pos = -1 )
 	{
 		Type obj;
-		get_from_stack( state, &obj );
+		get_from_stack( state, &obj, pos );
 		return obj;
 	}
 
@@ -97,6 +97,8 @@ namespace mani
 		void           push() const;
 
 		size_t         getLength() const;
+
+		void           reset();
 	protected:
 		const InterpreterBase<AllocationPolicy>*  m_VirtualMachine;
 		typedef details::RegistryReference<AllocationPolicy> ref_t;

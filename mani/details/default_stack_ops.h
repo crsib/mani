@@ -44,7 +44,7 @@ namespace mani
 
 #define GET_FROM_STACK( type, method ) \
 	template<> inline\
-	type    get_from_stack<type>( lua_State* state ) { return (type)method( state, -1 ); }
+	type    get_from_stack<type>( lua_State* state, int pos ) { return (type)method( state, pos ); }
 
 	GET_FROM_STACK( int,           lua_tointeger );
 	GET_FROM_STACK( unsigned,      lua_tointeger );
@@ -71,7 +71,7 @@ namespace mani
 	GET_FROM_STACK( void*,         lua_touserdata );
 
 	template<> inline
-	const char*    get_from_stack<const char*>( lua_State* state ) { return lua_isnil( state, -1 ) ? "" : (const char*)lua_tostring( state, -1 ); }
+	const char*    get_from_stack<const char*>( lua_State* state, int pos ) { return lua_isnil( state, -1 ) ? "" : (const char*)lua_tostring( state, -1 ); }
 	
 #undef PUSH_TO_STACK
 #undef GET_FROM_STACK

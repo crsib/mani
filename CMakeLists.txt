@@ -23,6 +23,41 @@ SET( mani_INCLUDES
 	./mani/mani.h
 	./mani/Result.h
 	./mani/ValueReference.h
+
+	./mani/details/functional_utils/Apply.h
+	./mani/details/functional_utils/DeduceSignature.h
+	./mani/details/functional_utils/Signature.h
+	./mani/details/functional_utils/Parameter.h
+	./mani/details/functional_utils/BinderProxy.h
+
+	./mani/details/type_utils/Base.h
+	./mani/details/type_utils/Out.h
+	./mani/details/type_utils/Traits.h
+	./mani/details/type_utils/Tuple.h
+	./mani/details/type_utils/TypeList.h
+
+	./mani/reg/Class.h
+	./mani/reg/Constant.h
+	./mani/reg/Constructor.h
+	./mani/reg/Enum.h
+	./mani/reg/Function.h
+	./mani/reg/Method.h
+	./mani/reg/Module.h
+	./mani/reg/Property.h
+	./mani/reg/reg.h
+	./mani/reg/StaticMethod.h
+
+	./mani/reg/impl/Class.h
+	./mani/reg/impl/Constant.h
+	./mani/reg/impl/Constructor.h
+	./mani/reg/impl/Enum.h
+	./mani/reg/impl/Function.h
+	./mani/reg/impl/Method.h
+	./mani/reg/impl/Module.h
+	./mani/reg/impl/Property.h
+	./mani/reg/impl/StaticMethod.h
+	./mani/reg/impl/TableUtils.h
+
 )
 
 source_group( "mani" FILES 
@@ -50,6 +85,48 @@ source_group( "mani\\details\\impl" FILES
 	./mani/details/impl/FunctionReference.h
 	./mani/details/impl/TableReference.h
 	./mani/details/impl/Result.h
+)
+
+source_group( "mani\\details\\type_utils" FILES
+	./mani/details/type_utils/Base.h
+	./mani/details/type_utils/Out.h
+	./mani/details/type_utils/Traits.h
+	./mani/details/type_utils/Tuple.h
+	./mani/details/type_utils/TypeList.h
+)
+
+source_group( "mani\\details\\functional_utils" FILES 
+	./mani/details/functional_utils/Apply.h
+	./mani/details/functional_utils/DeduceSignature.h
+	./mani/details/functional_utils/Signature.h
+	./mani/details/functional_utils/Parameter.h
+	./mani/details/functional_utils/BinderProxy.h
+)
+
+source_group( "mani\\reg" FILES
+	./mani/reg/Class.h
+	./mani/reg/Constant.h
+	./mani/reg/Constructor.h
+	./mani/reg/Enum.h
+	./mani/reg/Function.h
+	./mani/reg/Method.h
+	./mani/reg/Module.h
+	./mani/reg/Property.h
+	./mani/reg/reg.h
+	./mani/reg/StaticMethod.h
+)
+
+source_group( "mani\\reg\\impl" FILES
+	./mani/reg/impl/Class.h
+	./mani/reg/impl/Constant.h
+	./mani/reg/impl/Constructor.h
+	./mani/reg/impl/Enum.h
+	./mani/reg/impl/Function.h
+	./mani/reg/impl/Method.h
+	./mani/reg/impl/Module.h
+	./mani/reg/impl/Property.h
+	./mani/reg/impl/StaticMethod.h
+	./mani/reg/impl/TableUtils.h
 )
 
 include_directories( . )

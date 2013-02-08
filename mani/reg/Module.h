@@ -1,6 +1,6 @@
 ﻿//  ==================================================================================
 //
-//  File:        mani.h
+//  File:        Module.h
 //  Description:
 //  Comments:
 //  Author:      Dmitry Vedenko
@@ -11,19 +11,24 @@
 //  are permitted provided that the requirements in the LICENSE file provided are met. 
 //
 //  ==================================================================================
-#ifndef mani_h__
-#define mani_h__
+#ifndef mani_reg_Module_h__
+#define mani_reg_Module_h__
 
 #include "mani/Interpreter.h"
 
-// impl
-#include "mani/details/impl/Interpreter.h"
-#include "mani/details/impl/RegistryReference.h"
-#include "mani/details/impl/ValueReference.h"
-#include "mani/details/impl/FunctionReference.h"
-#include "mani/details/impl/TableReference.h"
-#include "mani/details/impl/Result.h"
+namespace mani
+{
+	namespace reg
+	{
+		namespace __private
+		{
+			template<typename LuaInterpType>
+			struct ModuleImpl;
+		}
+		
+		template<typename LuaInterpType, typename StringType>
+		__private::ModuleImpl<LuaInterpType>  module( const LuaInterpType& lua, const StringType& module_name );
+	}
+}
 
-#include "reg/reg.h"
-
-#endif // mani_h__
+#endif // mani_reg_Module_h__

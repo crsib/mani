@@ -17,25 +17,71 @@
 #include "mani/Interpreter.h"
 #include "mani/details/StackGuard.h"
 
+#include "mani/reg/impl/TableUtils.h"
+
 #include <cstring>
 
 namespace mani
 {
+	template<typename AllocationPolicy>
+	void InterpreterBase<AllocationPolicy>::setupVM()
+	{
+		details::StackGuard guard( m_LuaVM );
+		lua_getfield( m_LuaVM, LUA_REGISTRYINDEX, "138B5CA27D5B4e308C7943FD61092D6D" );
+
+		if( !lua_isnil( m_LuaVM, -1 ) )
+		{
+			lua_pop( m_LuaVM, 1 );
+			return ;
+		}
+
+		lua_pop( m_LuaVM, 1 );
+
+		lua_pushlightuserdata( m_LuaVM, this );
+		lua_setfield( m_LuaVM, LUA_REGISTRYINDEX, "138B5CA27D5B4e308C7943FD61092D6D" );
+
+		m_VMRegistry = Table::new_table( *this );
+
+		m_VMRegistry.setField( "classes", Table::new_table( *this ) );
+		m_VMRegistry.setField( "modules", Table::new_table( *this ) );
+
+		Table globals_registry = Table::new_table( *this );
+		globals_registry.setMetaField( Table::MetaIndex, globals_registry );
+
+		push_to_stack( m_LuaVM, globals_registry );
+
+		lua_pushvalue( m_LuaVM, -1 );
+		lua_pushcclosure( m_LuaVM, mani::reg::impl::__meta_new_index, 1 );
+		lua_setfield( m_LuaVM, -2, "__newindex" );
+
+		lua_setmetatable( m_LuaVM, LUA_GLOBALSINDEX );
+
+		m_VMRegistry.setField( "globals", globals_registry );
+	}
+
 	template<typename AllocationPolicy>
 	InterpreterBase<AllocationPolicy>::InterpreterBase()
 		: m_OwnsState( true )
 	{
 		m_LuaVM = lua_newstate( InterpreterBase<AllocationPolicy>::lua_alloc, this );
 		m_ThreadSpecificStates.set( m_LuaVM );
+
+		setupVM();
 	}
 
 	template<typename AllocationPolicy>
 	InterpreterBase<AllocationPolicy>::InterpreterBase( lua_State* lua )
-		: m_LuaVM( lua ), m_OwnsState( false ) { m_ThreadSpecificStates.set( m_LuaVM ); }
+		: m_LuaVM( lua ), m_OwnsState( false ) 
+	{ 
+		m_ThreadSpecificStates.set( m_LuaVM ); 
+		setupVM(); 
+	}
 
 	template<typename AllocationPolicy>
 	InterpreterBase<AllocationPolicy>::~InterpreterBase()
 	{
+		m_VMRegistry.reset();
+
 		if(m_OwnsState)
 			lua_close( m_LuaVM );
 	}
@@ -59,14 +105,14 @@ namespace mani
 	{
 		static const size_t   __libs_count = 8;
 		static const luaL_Reg __lualibs[__libs_count] = {
-			{ "", luaopen_base },
-			{ LUA_TABLIBNAME, luaopen_table },
-			{ LUA_IOLIBNAME, luaopen_io },
-			{ LUA_OSLIBNAME, luaopen_os },
+			{ "",             luaopen_base   },
+			{ LUA_TABLIBNAME, luaopen_table  },
+			{ LUA_IOLIBNAME,  luaopen_io     },
+			{ LUA_OSLIBNAME,  luaopen_os     },
 			{ LUA_STRLIBNAME, luaopen_string },
-			{ LUA_MATHLIBNAME, luaopen_math },
-			{ LUA_DBLIBNAME, luaopen_debug },
-			{ LUA_LOADLIBNAME, luaopen_package }
+			{ LUA_MATHLIBNAME,luaopen_math   },
+			{ LUA_DBLIBNAME,  luaopen_debug  },
+			{ LUA_LOADLIBNAME,luaopen_package}
 		};
 
 		for( size_t i = 0; i < __libs_count; ++i )
@@ -184,5 +230,32 @@ namespace mani
 
 		return Result( *this, lua_gettop( lua ) - top, error_occured );
 	}
+
+	template<typename AllocationPolicy>
+	InterpreterBase<AllocationPolicy>& mani::InterpreterBase<AllocationPolicy>::GetInterpreter( lua_State* lua )
+	{
+		lua_getfield( lua, LUA_REGISTRYINDEX, "138B5CA27D5B4e308C7943FD61092D6D" );
+		void* __vm = lua_touserdata( lua, -1 );
+		lua_pop( lua, 1 );
+		return *reinterpret_cast<InterpreterBase<AllocationPolicy>*>( __vm );
+	}
+
+	template<typename AllocationPolicy>
+	typename InterpreterBase<AllocationPolicy>::Table mani::InterpreterBase<AllocationPolicy>::getVMGlobalRegistry() const
+	{
+		{ return m_VMRegistry.getField( "globals", true ); }
+	}
+
+	template<typename AllocationPolicy>
+	typename InterpreterBase<AllocationPolicy>::Table mani::InterpreterBase<AllocationPolicy>::getVMModulesRegistry() const
+	{ return m_VMRegistry.getField( "modules", true ); }
+
+	template<typename AllocationPolicy>
+	typename InterpreterBase<AllocationPolicy>::Table mani::InterpreterBase<AllocationPolicy>::getVMClassRegistry() const
+	{ return m_VMRegistry.getField( "classes", true ); }
+
+	template<typename AllocationPolicy>
+	typename InterpreterBase<AllocationPolicy>::Table mani::InterpreterBase<AllocationPolicy>::getVMRegistry() const
+	{ return m_VMRegistry; }
 }
 #endif // Interpreter_h__

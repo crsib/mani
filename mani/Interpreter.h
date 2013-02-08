@@ -67,13 +67,24 @@ namespace mani
 		Result          doBuffer( const char* string, size_t size );
 		Result          doBuffer( const char* string, size_t size, const Table& env );
 
+		Table           getVMRegistry() const;
+		Table           getVMClassRegistry() const;
+		Table           getVMModulesRegistry() const;
+		Table           getVMGlobalRegistry() const;
+
+		static InterpreterBase<AllocationPolicy>&  GetInterpreter( lua_State* lua );
+
 	private:  
 		static void*    lua_alloc(void *ud, void *ptr, size_t osize, size_t nsize);
 
 		lua_State*        m_LuaVM;
 		details::tl_state m_ThreadSpecificStates;
 
+		Table             m_VMRegistry;
+
 		bool              m_OwnsState;
+
+		void              setupVM();
 	};
 }
 

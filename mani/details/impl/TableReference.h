@@ -34,12 +34,9 @@ namespace mani
 		static const char* __meta_keys[MethodsCount] = { "__add", "__sub", "__mul", "__div", "__unm", "__concat", "__eq", "__lt", "__le", "__tostring", "__index", "__newindex", "__gc" };
 
 		lua_pushstring( lua, __meta_keys[method] );
-		value.m_Reference.push( lua );
+		push_to_stack( lua, value );
 
-		if(raw == false)
-			lua_settable( lua, idx );
-		else
-			lua_rawset( lua, idx );
+		lua_rawset( lua, idx );
 	}
 
 	template<typename AllocationPolicy>

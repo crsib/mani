@@ -43,7 +43,7 @@ namespace mani
 				enum { result = 0 };
 			};
 
-			namespace internal
+			namespace __private
 			{
 				typedef Vector<unsigned char, unsigned short int,unsigned int, unsigned long int>::result_t
 					StdUnsignedInts;
@@ -2022,12 +2022,12 @@ namespace mani
 
 				template <class U> struct FunctionPointerTraits
 				{
-					enum{ result = internal::IsFunctionPointerRaw<U>::result };
+					enum{ result = __private::IsFunctionPointerRaw<U>::result };
 				};
 
 				template <typename U> struct PToMFunctionTraits
 				{
-					enum{ result = internal::IsMemberFunctionPointerRaw<U>::result };
+					enum{ result = __private::IsMemberFunctionPointerRaw<U>::result };
 				};
 
 				template <class U> struct UnConst
@@ -2081,7 +2081,7 @@ namespace mani
 				enum { is_const          = UnConst<T>::isConst };
 				enum { is_volatile       = UnVolatile<T>::isVolatile };
 				enum { is_reference      = ReferenceTraits<unqualified_type_t>::result };
-				enum { is_function       = FunctionPointerTraits<typename internal::AddPointer<T>::Result >::result };
+				enum { is_function       = FunctionPointerTraits<typename __private::AddPointer<T>::Result >::result };
 				enum { is_function_pointer= FunctionPointerTraits<
 					typename ReferenceTraits<unqualified_type_t>::ReferredType >::result };
 				enum { is_member_function_pointer= PToMFunctionTraits<
@@ -2093,18 +2093,18 @@ namespace mani
 					typename ReferenceTraits<unqualified_type_t>::ReferredType >::result ||
 					is_function_pointer };
 
-				enum { is_std_unsigned_int = IndexOf<internal::StdUnsignedInts, unqualified_type_t>::result >= 0 ||
-					IndexOf<internal::StdUnsignedInts, 
+				enum { is_std_unsigned_int = IndexOf<__private::StdUnsignedInts, unqualified_type_t>::result >= 0 ||
+					IndexOf<__private::StdUnsignedInts, 
 					typename ReferenceTraits<unqualified_type_t>::ReferredType>::result >= 0};
-				enum { is_std_signed_int   = IndexOf<internal::StdSignedInts, unqualified_type_t>::result >= 0 ||
-					IndexOf<internal::StdSignedInts, 
+				enum { is_std_signed_int   = IndexOf<__private::StdSignedInts, unqualified_type_t>::result >= 0 ||
+					IndexOf<__private::StdSignedInts, 
 					typename ReferenceTraits<unqualified_type_t>::ReferredType>::result >= 0};
 				enum { is_std_integral    = is_std_unsigned_int || is_std_signed_int ||
-					IndexOf<internal::StdOtherInts, unqualified_type_t>::result >= 0 ||
-					IndexOf<internal::StdOtherInts, 
+					IndexOf<__private::StdOtherInts, unqualified_type_t>::result >= 0 ||
+					IndexOf<__private::StdOtherInts, 
 					typename ReferenceTraits<unqualified_type_t>::ReferredType>::result >= 0};
-				enum { is_std_float       = IndexOf<internal::StdFloats, unqualified_type_t>::result >= 0 ||
-					IndexOf<internal::StdFloats, 
+				enum { is_std_float       = IndexOf<__private::StdFloats, unqualified_type_t>::result >= 0 ||
+					IndexOf<__private::StdFloats, 
 					typename ReferenceTraits<unqualified_type_t>::ReferredType>::result >= 0};
 				enum { is_std_arith       = is_std_integral || is_std_float };
 				enum { is_std_fundamental = is_std_arith || is_std_float || Conversion<T, void>::same_type };
@@ -2117,7 +2117,7 @@ namespace mani
 				enum { is_fundamental     = is_std_fundamental || is_arith };
 
 				typedef typename Select<is_std_arith || is_pointer || is_member_pointer, T, 
-					typename internal::AddParameterType<T>::Result>::result_t 
+					typename __private::AddParameterType<T>::Result>::result_t 
 					parameter_type_t;
 			};
 		}

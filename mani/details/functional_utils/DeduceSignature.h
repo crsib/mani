@@ -113,7 +113,7 @@ namespace mani
 			{ return Signature< R, mani::details::type_utils::Vector< T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12 >, R (*)(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12) >(); }
 
 			// Methods
-			namespace internal
+			namespace __private
 			{
 				template<typename T> struct remove_pointer { typedef T result_t; };
 				template<typename T> struct remove_pointer<T*> { typedef T result_t; };

@@ -23,7 +23,7 @@ namespace mani
 	{
 		namespace functional_utils
 		{
-			namespace internal
+			namespace __private
 			{
 				template< int count, typename Sig >
 				struct function_apply_helper
@@ -368,7 +368,7 @@ namespace mani
 					mani::details::type_utils::true_type
 					)
 				{ 
-					return internal::method_apply_helper<Sig::arg_count, Sig>::apply( fn, params, __this );
+					return __private::method_apply_helper<Sig::arg_count, Sig>::apply( fn, params, __this );
 				}
 
 				template< typename Sig >
@@ -379,7 +379,7 @@ namespace mani
 					mani::details::type_utils::false_type
 					)
 				{ 
-					return internal::function_apply_helper<Sig::arg_count, Sig>::apply( fn, params );
+					return __private::function_apply_helper<Sig::arg_count, Sig>::apply( fn, params );
 				}
 			}
 
@@ -390,7 +390,7 @@ namespace mani
 				const mani::details::type_utils::Tuple<typename Sig::parameters_t>& params = mani::details::type_utils::Tuple<typename Sig::parameters_t>() 
 				)
 			{ 
-				return internal::apply( 
+				return __private::apply( 
 					__, __this, fn, params, 
 					typename mani::details::type_utils::Select< Sig::is_method, mani::details::type_utils::true_type, mani::details::type_utils::false_type >::result_t() );
 			}

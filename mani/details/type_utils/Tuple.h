@@ -32,7 +32,7 @@ namespace mani
 	{
 		namespace type_utils
 		{
-			namespace internal
+			namespace __private
 			{
 				template<class, class> 
 				struct ScatterHierarchyTag;
@@ -166,14 +166,14 @@ namespace mani
 			}
 
 			template <int i, class H>
-			typename internal::FieldHelper<H, i>::ResultType&
+			typename __private::FieldHelper<H, i>::ResultType&
 				Field(H& obj)
 			{
-				return internal::FieldHelper<H, i>::Do(obj);
+				return __private::FieldHelper<H, i>::Do(obj);
 			}
 
 			template<class TList>
-			struct Tuple : public internal::GenScatterHierarchy<TList, internal::TupleUnit>
+			struct Tuple : public __private::GenScatterHierarchy<TList, __private::TupleUnit>
 			{
 			};
 

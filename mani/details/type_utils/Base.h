@@ -35,7 +35,7 @@ namespace mani
 			template<typename T>
 			struct IsSameType<T,T> { enum { result = true }; };
 
-			namespace internal
+			namespace __private
 			{
 				template<typename Lhs, typename Rhs>
 				struct check_convertible
@@ -51,7 +51,7 @@ namespace mani
 			template<typename Lhs, typename Rhs>
 			struct Conversion
 			{
-				typedef internal::check_convertible<Lhs,Rhs> conversion_check_t;
+				typedef __private::check_convertible<Lhs,Rhs> conversion_check_t;
 
 				enum { exists = sizeof( typename conversion_check_t::small_t ) == sizeof( conversion_check_t::check( conversion_check_t::lhs() ) ) };
 				enum { two_way = exists && Conversion<Rhs,Lhs>::exists };
@@ -124,6 +124,12 @@ namespace mani
 			struct Select<false, T, U>
 			{
 				typedef U result_t;
+			};
+
+			template<typename MemberPtr>
+			struct MemberPointerWrapper
+			{
+				MemberPtr  pointer;
 			};
 		}
 	}

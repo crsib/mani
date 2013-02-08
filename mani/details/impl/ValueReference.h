@@ -235,6 +235,13 @@ namespace mani
 	ValueReference<AllocationPolicy>::ValueReference()
 		: m_VirtualMachine( NULL ), m_Type(None), m_IsCFunction(false)
 	{}
+
+
+	template<typename AllocationPolicy>
+	void mani::ValueReference<AllocationPolicy>::reset()
+	{
+		m_Reference = details::RegistryReference<AllocationPolicy>();
+	}
 }
 
 #endif // mani_impl_ValueReference_h__

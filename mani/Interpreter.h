@@ -56,7 +56,7 @@ namespace mani
 		typedef ValueReference<AllocationPolicy> Value;
 		typedef TableReference<AllocationPolicy> Table;
 		typedef FunctionReference<AllocationPolicy> Function;
-		typedef Result<AllocationPolicy> Result;
+        typedef mani::Result<AllocationPolicy> Result;
 
 		Result          doFile( const char* path );
 		Result          doFile( const char* path, const Table& env );

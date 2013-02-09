@@ -63,13 +63,13 @@ namespace mani
 			mani_object() {}
 			~mani_object() {}
 		public:
-			static void* operator new( size_t sz ) { return allocate(sz); }
-			static void* operator new [] ( size_t sz ) { return allocate(sz); }
+            static void* operator new( size_t sz ) { return AllocationPolicy::allocate(sz); }
+            static void* operator new [] ( size_t sz ) { return AllocationPolicy::allocate(sz); }
 
 			static void* operator new( size_t, void* p ) { return p; }
 
-			static void	 operator delete( void* p, size_t sz ) { deallocate(p, sz); }
-			static void  operator delete[] ( void* p, size_t sz ) { deallocate(p, sz); }
+            static void	 operator delete( void* p, size_t sz ) { AllocationPolicy::deallocate(p, sz); }
+            static void  operator delete[] ( void* p, size_t sz ) { AllocationPolicy::deallocate(p, sz); }
 		};
 	}
 }

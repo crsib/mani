@@ -38,70 +38,70 @@ namespace mani
 		void             setGlobalEnvironment();
 
 		Result<AllocationPolicy> call() const
-		{ return __call_gate( m_VirtualMachine, *this).call(); }
+        { return __call_gate( ValueReference<AllocationPolicy>::m_VirtualMachine, *this).call(); }
 		template<typename T1>
 		Result<AllocationPolicy> call( T1 arg1 ) const
-		{ return __call_gate( m_VirtualMachine, *this).arg(arg1).call(); }
+        { return __call_gate( ValueReference<AllocationPolicy>::m_VirtualMachine, *this).arg(arg1).call(); }
 		template<typename T1, typename T2>
 		Result<AllocationPolicy> call( T1 arg1, T2 arg2 ) const
-		{ return __call_gate( m_VirtualMachine, *this).arg(arg1).arg(arg2).call(); }
+        { return __call_gate( ValueReference<AllocationPolicy>::m_VirtualMachine, *this).arg(arg1).arg(arg2).call(); }
 		template<typename T1, typename T2, typename T3>
 		Result<AllocationPolicy> call( T1 arg1, T2 arg2, T3 arg3 ) const
-		{ return __call_gate( m_VirtualMachine, *this).arg(arg1).arg(arg2).arg(arg3).call(); }
+        { return __call_gate( ValueReference<AllocationPolicy>::m_VirtualMachine, *this).arg(arg1).arg(arg2).arg(arg3).call(); }
 		template<typename T1, typename T2, typename T3, typename T4>
 		Result<AllocationPolicy> call( T1 arg1, T2 arg2, T3 arg3, T4 arg4 ) const
-		{ return __call_gate( m_VirtualMachine, *this).arg(arg1).arg(arg2).arg(arg3).arg(arg4).call(); }
+        { return __call_gate( ValueReference<AllocationPolicy>::m_VirtualMachine, *this).arg(arg1).arg(arg2).arg(arg3).arg(arg4).call(); }
 		template<typename T1, typename T2, typename T3, typename T4, typename T5>
 		Result<AllocationPolicy> call( T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5 ) const
-		{ return __call_gate( m_VirtualMachine, *this).arg(arg1).arg(arg2).arg(arg3).arg(arg4).arg(arg5).call(); }
+        { return __call_gate( ValueReference<AllocationPolicy>::m_VirtualMachine, *this).arg(arg1).arg(arg2).arg(arg3).arg(arg4).arg(arg5).call(); }
 		template<typename T1, typename T2, typename T3, typename T4, typename T5, typename T6>
 		Result<AllocationPolicy> call( T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6 ) const
-		{ return __call_gate( m_VirtualMachine, *this).arg(arg1).arg(arg2).arg(arg3).arg(arg4).arg(arg5).arg(arg6).call(); }
+        { return __call_gate( ValueReference<AllocationPolicy>::m_VirtualMachine, *this).arg(arg1).arg(arg2).arg(arg3).arg(arg4).arg(arg5).arg(arg6).call(); }
 		template<typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7>
 		Result<AllocationPolicy> call( T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7 ) const
-		{ return __call_gate( m_VirtualMachine, *this).arg(arg1).arg(arg2).arg(arg3).arg(arg4).arg(arg5).arg(arg6).arg(arg7).call(); }
+        { return __call_gate( ValueReference<AllocationPolicy>::m_VirtualMachine, *this).arg(arg1).arg(arg2).arg(arg3).arg(arg4).arg(arg5).arg(arg6).arg(arg7).call(); }
 		template<typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8>
 		Result<AllocationPolicy> call( T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8 ) const
-		{ return __call_gate( m_VirtualMachine, *this).arg(arg1).arg(arg2).arg(arg3).arg(arg4).arg(arg5).arg(arg6).arg(arg7).arg(arg8).call(); }
+        { return __call_gate( ValueReference<AllocationPolicy>::m_VirtualMachine, *this).arg(arg1).arg(arg2).arg(arg3).arg(arg4).arg(arg5).arg(arg6).arg(arg7).arg(arg8).call(); }
 		template<typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9>
 		Result<AllocationPolicy> call( T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9 ) const
-		{ return __call_gate( m_VirtualMachine, *this).arg(arg1).arg(arg2).arg(arg3).arg(arg4).arg(arg5).arg(arg6).arg(arg7).arg(arg8).arg(arg9).call(); }
+        { return __call_gate( ValueReference<AllocationPolicy>::m_VirtualMachine, *this).arg(arg1).arg(arg2).arg(arg3).arg(arg4).arg(arg5).arg(arg6).arg(arg7).arg(arg8).arg(arg9).call(); }
 		template<typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9, typename T10>
 		Result<AllocationPolicy> call( T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10 ) const
-		{ return __call_gate( m_VirtualMachine, *this).arg(arg1).arg(arg2).arg(arg3).arg(arg4).arg(arg5).arg(arg6).arg(arg7).arg(arg8).arg(arg9).arg(arg10).call(); }
+        { return __call_gate( ValueReference<AllocationPolicy>::m_VirtualMachine, *this).arg(arg1).arg(arg2).arg(arg3).arg(arg4).arg(arg5).arg(arg6).arg(arg7).arg(arg8).arg(arg9).arg(arg10).call(); }
 
 		Result<AllocationPolicy> operator () () const
-		{ return __call_gate( m_VirtualMachine, *this).call(); }
+        { return __call_gate( ValueReference<AllocationPolicy>::m_VirtualMachine, *this).call(); }
 		template<typename T1>
 		Result<AllocationPolicy> operator () ( T1 arg1 ) const
-		{ return __call_gate( m_VirtualMachine, *this).arg(arg1).call(); }
+        { return __call_gate( ValueReference<AllocationPolicy>::m_VirtualMachine, *this).arg(arg1).call(); }
 		template<typename T1, typename T2>
 		Result<AllocationPolicy> operator () ( T1 arg1, T2 arg2 ) const
-		{ return __call_gate( m_VirtualMachine, *this).arg(arg1).arg(arg2).call(); }
+        { return __call_gate( ValueReference<AllocationPolicy>::m_VirtualMachine, *this).arg(arg1).arg(arg2).call(); }
 		template<typename T1, typename T2, typename T3>
 		Result<AllocationPolicy> operator () ( T1 arg1, T2 arg2, T3 arg3 ) const
-		{ return __call_gate( m_VirtualMachine, *this).arg(arg1).arg(arg2).arg(arg3).call(); }
+        { return __call_gate( ValueReference<AllocationPolicy>::m_VirtualMachine, *this).arg(arg1).arg(arg2).arg(arg3).call(); }
 		template<typename T1, typename T2, typename T3, typename T4>
 		Result<AllocationPolicy> operator () ( T1 arg1, T2 arg2, T3 arg3, T4 arg4 ) const
-		{ return __call_gate( m_VirtualMachine, *this).arg(arg1).arg(arg2).arg(arg3).arg(arg4).call(); }
+        { return __call_gate( ValueReference<AllocationPolicy>::m_VirtualMachine, *this).arg(arg1).arg(arg2).arg(arg3).arg(arg4).call(); }
 		template<typename T1, typename T2, typename T3, typename T4, typename T5>
 		Result<AllocationPolicy> operator () ( T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5 ) const
-		{ return __call_gate( m_VirtualMachine, *this).arg(arg1).arg(arg2).arg(arg3).arg(arg4).arg(arg5).call(); }
+        { return __call_gate( ValueReference<AllocationPolicy>::m_VirtualMachine, *this).arg(arg1).arg(arg2).arg(arg3).arg(arg4).arg(arg5).call(); }
 		template<typename T1, typename T2, typename T3, typename T4, typename T5, typename T6>
 		Result<AllocationPolicy> operator () ( T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6 ) const
-		{ return __call_gate( m_VirtualMachine, *this).arg(arg1).arg(arg2).arg(arg3).arg(arg4).arg(arg5).arg(arg6).call(); }
+        { return __call_gate( ValueReference<AllocationPolicy>::m_VirtualMachine, *this).arg(arg1).arg(arg2).arg(arg3).arg(arg4).arg(arg5).arg(arg6).call(); }
 		template<typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7>
 		Result<AllocationPolicy> operator () ( T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7 ) const
-		{ return __call_gate( m_VirtualMachine, *this).arg(arg1).arg(arg2).arg(arg3).arg(arg4).arg(arg5).arg(arg6).arg(arg7).call(); }
+        { return __call_gate( ValueReference<AllocationPolicy>::m_VirtualMachine, *this).arg(arg1).arg(arg2).arg(arg3).arg(arg4).arg(arg5).arg(arg6).arg(arg7).call(); }
 		template<typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8>
 		Result<AllocationPolicy> operator () ( T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8 ) const
-		{ return __call_gate( m_VirtualMachine, *this).arg(arg1).arg(arg2).arg(arg3).arg(arg4).arg(arg5).arg(arg6).arg(arg7).arg(arg8).call(); }
+        { return __call_gate( ValueReference<AllocationPolicy>::m_VirtualMachine, *this).arg(arg1).arg(arg2).arg(arg3).arg(arg4).arg(arg5).arg(arg6).arg(arg7).arg(arg8).call(); }
 		template<typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9>
 		Result<AllocationPolicy> operator () ( T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9 ) const
-		{ return __call_gate( m_VirtualMachine, *this).arg(arg1).arg(arg2).arg(arg3).arg(arg4).arg(arg5).arg(arg6).arg(arg7).arg(arg8).arg(arg9).call(); }
+        { return __call_gate( ValueReference<AllocationPolicy>::m_VirtualMachine, *this).arg(arg1).arg(arg2).arg(arg3).arg(arg4).arg(arg5).arg(arg6).arg(arg7).arg(arg8).arg(arg9).call(); }
 		template<typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9, typename T10>
 		Result<AllocationPolicy> operator () ( T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10 ) const
-		{ return __call_gate( m_VirtualMachine, *this).arg(arg1).arg(arg2).arg(arg3).arg(arg4).arg(arg5).arg(arg6).arg(arg7).arg(arg8).arg(arg9).arg(arg10).call(); }
+        { return __call_gate( ValueReference<AllocationPolicy>::m_VirtualMachine, *this).arg(arg1).arg(arg2).arg(arg3).arg(arg4).arg(arg5).arg(arg6).arg(arg7).arg(arg8).arg(arg9).arg(arg10).call(); }
 	private:
 		struct __call_gate
 		{

@@ -37,7 +37,7 @@ namespace mani
 			if( lua_isnoneornil( current_state, 1 ) )
 				return ;
 
-			m_ReferenceCount = reinterpret_cast<unsigned long*>( allocate( sizeof( unsigned long ) ) );
+            m_ReferenceCount = reinterpret_cast<unsigned long*>( AllocationPolicy::allocate( sizeof( unsigned long ) ) );
 			*m_ReferenceCount = 1; 
 			m_RegistryIndex = luaL_ref( current_state, LUA_REGISTRYINDEX );
 		}
@@ -72,7 +72,7 @@ namespace mani
 		{
 			if( m_ReferenceCount && !MANI_ATOMIC_DEC(m_ReferenceCount) )
 			{
-				deallocate( const_cast<unsigned long*>(m_ReferenceCount), sizeof(long unsigned) );
+                AllocationPolicy::deallocate( const_cast<unsigned long*>(m_ReferenceCount), sizeof(long unsigned) );
 				luaL_unref( m_AssociatedVM, LUA_REGISTRYINDEX, m_RegistryIndex );
 			}
 		}

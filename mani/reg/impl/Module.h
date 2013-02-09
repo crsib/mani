@@ -39,8 +39,10 @@ namespace mani
 						typename LuaInterpType::Table mod_reg = lua.getVMModulesRegistry();
 						int next_idx = mod_reg.getLength() + 1;
 
-						typename LuaInterpType::Table module_meta = typename LuaInterpType::Table::new_table( lua );
-						module_meta.setMetaField( typename LuaInterpType::Table::MetaIndex, module_meta );
+                        typedef typename LuaInterpType::Table table_t;
+
+                        table_t module_meta = table_t::new_table( lua );
+                        module_meta.setMetaField( table_t::MetaIndex, module_meta );
 
 						push_to_stack( l, module_meta );
 
@@ -50,7 +52,7 @@ namespace mani
 
 						lua_setmetatable( l, -2 );
 
-						mod_reg.setField( 1, module_meta );
+                        mod_reg.setField( next_idx, module_meta );
 					}
 				}
 
@@ -66,7 +68,7 @@ namespace mani
 		}
 
 		template<typename LuaInterpType, typename StringType>
-		__private::ModuleImpl<LuaInterpType> module<LuaInterpType, StringType>( const LuaInterpType& lua, const StringType& module_name )
+        __private::ModuleImpl<LuaInterpType> module( const LuaInterpType& lua, const StringType& module_name )
 		{
 			return __private::ModuleImpl<LuaInterpType>( lua, module_name );
 		}

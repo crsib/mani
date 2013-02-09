@@ -43,7 +43,7 @@ namespace mani
 	}
 
 	template<typename AllocationPolicy>
-	Result<AllocationPolicy>::Result( const InterpreterBase<AllocationPolicy>& vm, int values_count, bool is_error = false )
+    Result<AllocationPolicy>::Result( const InterpreterBase<AllocationPolicy>& vm, int values_count, bool is_error )
 	{
 		m_Results = NULL;
 		m_ResultsCount = values_count;

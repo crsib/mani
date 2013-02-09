@@ -16,17 +16,18 @@
 
 #include "mani/TableReference.h"
 #include "mani/details/StackGuard.h"
+#include "mani/details/RegistryReference.h"
 
 namespace mani
 {
 	template<typename AllocationPolicy>
 	void TableReference<AllocationPolicy>::setMetaField( MetaMethod method, const ValueReference<AllocationPolicy>& value )
 	{
-		assert( isTable() );
-		if(!m_VirtualMachine)
+        assert( ValueReference<AllocationPolicy>::isTable() );
+        if(!ValueReference<AllocationPolicy>::m_VirtualMachine)
 			return ;
 
-		lua_State* lua = m_VirtualMachine->getVirtualMachine();
+        lua_State* lua = ValueReference<AllocationPolicy>::m_VirtualMachine->getVirtualMachine();
 		details::StackGuard guard(lua);
 
 		int idx = prepareSet( lua );
@@ -43,11 +44,11 @@ namespace mani
 	template<typename KeyType, typename ValueType>
 	void TableReference<AllocationPolicy>::setField( KeyType const & key, ValueType const & value, bool raw /*= false */ )
 	{
-		assert( isTable() );
-		if(!m_VirtualMachine)
+        assert( ValueReference<AllocationPolicy>::isTable() );
+        if(!ValueReference<AllocationPolicy>::m_VirtualMachine)
 			return ;
 
-		lua_State* lua = m_VirtualMachine->getVirtualMachine();
+        lua_State* lua = ValueReference<AllocationPolicy>::m_VirtualMachine->getVirtualMachine();
 		details::StackGuard guard(lua);
 
 		int idx = prepareSet( lua );
@@ -64,11 +65,11 @@ namespace mani
 	template<typename KeyType>
 	void TableReference<AllocationPolicy>::setField( KeyType const & key, const ValueReference<AllocationPolicy>& value, bool raw /*= false */ )
 	{
-		assert( isTable() );
-		if(!m_VirtualMachine)
+        assert( ValueReference<AllocationPolicy>::isTable() );
+        if(!ValueReference<AllocationPolicy>::m_VirtualMachine)
 			return ;
 
-		lua_State* lua = m_VirtualMachine->getVirtualMachine();
+        lua_State* lua = ValueReference<AllocationPolicy>::m_VirtualMachine->getVirtualMachine();
 		details::StackGuard guard(lua);
 
 		int idx = prepareSet( lua );
@@ -84,11 +85,11 @@ namespace mani
 	template<typename AllocationPolicy>
 	void TableReference<AllocationPolicy>::setField( ValueReference<AllocationPolicy> const & key, const ValueReference<AllocationPolicy>& value, bool raw /*= false */ )
 	{
-		assert( isTable() );
-		if(!m_VirtualMachine)
+        assert( ValueReference<AllocationPolicy>::isTable() );
+        if(!ValueReference<AllocationPolicy>::m_VirtualMachine)
 			return ;
 
-		lua_State* lua = m_VirtualMachine->getVirtualMachine();
+        lua_State* lua = ValueReference<AllocationPolicy>::m_VirtualMachine->getVirtualMachine();
 		details::StackGuard guard(lua);
 
 		int idx = prepareSet( lua );
@@ -106,11 +107,11 @@ namespace mani
 	void
 		TableReference<AllocationPolicy>::getField( KeyType const & key, ValueType& value, bool raw /*= false */ ) const
 	{
-		assert( isTable() );
-		if(!m_VirtualMachine)
+        assert( ValueReference<AllocationPolicy>::isTable() );
+        if(!ValueReference<AllocationPolicy>::m_VirtualMachine)
 			return ;
 
-		lua_State* lua = m_VirtualMachine->getVirtualMachine();
+        lua_State* lua = ValueReference<AllocationPolicy>::m_VirtualMachine->getVirtualMachine();
 		details::StackGuard guard(lua);
 
 		int idx = prepare( lua );
@@ -129,11 +130,11 @@ namespace mani
 	ValueReference<AllocationPolicy>
 		TableReference<AllocationPolicy>::getField( KeyType const & key, bool raw /*= false */ ) const
 	{
-		assert( isTable() );
-		if(!m_VirtualMachine)
-			return ValueReference<AllocationPolicy>::nil_value( *m_VirtualMachine );
+        assert( ValueReference<AllocationPolicy>::isTable() );
+        if(!ValueReference<AllocationPolicy>::m_VirtualMachine)
+            return ValueReference<AllocationPolicy>::nil_value( *ValueReference<AllocationPolicy>::m_VirtualMachine );
 
-		lua_State* lua = m_VirtualMachine->getVirtualMachine();
+        lua_State* lua = ValueReference<AllocationPolicy>::m_VirtualMachine->getVirtualMachine();
 		details::StackGuard guard(lua);
 
 		int idx = prepare( lua );
@@ -144,17 +145,17 @@ namespace mani
 		else
 			lua_rawget( lua, idx );
 
-		return ValueReference<AllocationPolicy>( *m_VirtualMachine, -1 );
+        return ValueReference<AllocationPolicy>( *ValueReference<AllocationPolicy>::m_VirtualMachine, -1 );
 	}
 
 	template<typename AllocationPolicy>
 	ValueReference<AllocationPolicy> TableReference<AllocationPolicy>::getField( ValueReference<AllocationPolicy> const & key, bool raw /*= false */ ) const
 	{
-		assert( isTable() );
-		if(!m_VirtualMachine)
-			return ValueReference<AllocationPolicy>::nil_value( *m_VirtualMachine );
+        assert( ValueReference<AllocationPolicy>::isTable() );
+        if(!ValueReference<AllocationPolicy>::m_VirtualMachine)
+            return ValueReference<AllocationPolicy>::nil_value( *ValueReference<AllocationPolicy>::m_VirtualMachine );
 
-		lua_State* lua = m_VirtualMachine->getVirtualMachine();
+        lua_State* lua = ValueReference<AllocationPolicy>::m_VirtualMachine->getVirtualMachine();
 		details::StackGuard guard(lua);
 
 		int idx = prepare( lua );
@@ -165,18 +166,18 @@ namespace mani
 		else
 			lua_rawget( lua, idx );
 
-		return ValueReference<AllocationPolicy>( *m_VirtualMachine, -1 );
+        return ValueReference<AllocationPolicy>( *ValueReference<AllocationPolicy>::m_VirtualMachine, -1 );
 	}
 
 	template<typename AllocationPolicy>
 	template<typename KeyType>
 	bool TableReference<AllocationPolicy>::hasField( KeyType const & key ) const
 	{
-		assert( isTable() );
-		if(!m_VirtualMachine)
+        assert( ValueReference<AllocationPolicy>::isTable() );
+        if(!ValueReference<AllocationPolicy>::m_VirtualMachine)
 			return false;
 
-		lua_State* lua = m_VirtualMachine->getVirtualMachine();
+        lua_State* lua = ValueReference<AllocationPolicy>::m_VirtualMachine->getVirtualMachine();
 		details::StackGuard guard(lua);
 
 		int idx = prepare( lua );
@@ -190,11 +191,11 @@ namespace mani
 	template<typename AllocationPolicy>
 	bool TableReference<AllocationPolicy>::hasField( ValueReference<AllocationPolicy> const & key ) const
 	{
-		assert( isTable() );
-		if(!m_VirtualMachine)
+        assert( ValueReference<AllocationPolicy>::isTable() );
+        if(!ValueReference<AllocationPolicy>::m_VirtualMachine)
 			return false;
 
-		lua_State* lua = m_VirtualMachine->getVirtualMachine();
+        lua_State* lua = ValueReference<AllocationPolicy>::m_VirtualMachine->getVirtualMachine();
 		details::StackGuard guard(lua);
 
 		int idx = prepare( lua );
@@ -211,7 +212,7 @@ namespace mani
 	{
 		if( m_IsGlobal )
 			return LUA_GLOBALSINDEX;
-		m_Reference.push( lua );
+        ValueReference<AllocationPolicy>::m_Reference.push( lua );
 		return -2;
 	}
 
@@ -220,7 +221,7 @@ namespace mani
 	{
 		if( m_IsGlobal )
 			return LUA_GLOBALSINDEX;
-		m_Reference.push( lua );
+        ValueReference<AllocationPolicy>::m_Reference.push( lua );
 		return -3;
 	}
 
@@ -230,7 +231,7 @@ namespace mani
 		TableReference<AllocationPolicy> table;
 		table.m_VirtualMachine = &interpreter;
 		table.m_IsGlobal = true;
-		table.m_Type = Table;
+        table.m_Type = TableReference<AllocationPolicy>::Table;
 		return table;
 	}
 
@@ -246,22 +247,22 @@ namespace mani
 
 	template<typename AllocationPolicy>
 	TableReference<AllocationPolicy>::TableReference( const InterpreterBase<AllocationPolicy>& vm, int stack_pos )
-		: ValueReference( vm, stack_pos ), m_IsGlobal(false)
-	{ assert( isTable() ); }
+        : ValueReference<AllocationPolicy>( vm, stack_pos ), m_IsGlobal(false)
+    { assert( TableReference<AllocationPolicy>::isTable() ); }
 
 	template<typename AllocationPolicy>
 	TableReference<AllocationPolicy>& TableReference<AllocationPolicy>::operator=( const ValueReference<AllocationPolicy>& rhs )
 	{
 		ValueReference<AllocationPolicy>::operator= ( rhs );
 		m_IsGlobal = false;
-		assert( isTable() ); 
+        assert( TableReference<AllocationPolicy>::isTable() );
 		return *this;
 	}
 
 	template<typename AllocationPolicy>
 	TableReference<AllocationPolicy>::TableReference( const ValueReference<AllocationPolicy>& rhs )
 		: ValueReference<AllocationPolicy>(rhs), m_IsGlobal( false )
-	{ assert( isTable() ); }
+    { assert( TableReference<AllocationPolicy>::isTable() ); }
 
 	template<typename AllocationPolicy>
 	TableReference<AllocationPolicy>& TableReference<AllocationPolicy>::operator=( const TableReference& rhs )

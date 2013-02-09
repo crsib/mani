@@ -172,6 +172,13 @@ namespace mani
 				return __private::FieldHelper<H, i>::Do(obj);
 			}
 
+            template <int i, class H>
+            typename __private::FieldHelper<const H, i>::ResultType&
+                Field(const H& obj)
+            {
+                return __private::FieldHelper<const H, i>::Do(obj);
+            }
+
 			template<class TList>
 			struct Tuple : public __private::GenScatterHierarchy<TList, __private::TupleUnit>
 			{

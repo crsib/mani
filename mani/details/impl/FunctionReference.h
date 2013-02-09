@@ -54,33 +54,33 @@ namespace mani
 	template<typename AllocationPolicy>
 	FunctionReference<AllocationPolicy>::FunctionReference( const InterpreterBase<AllocationPolicy>& vm, int stack_pos )
 		: ValueReference<AllocationPolicy>( vm, stack_pos )
-	{ assert( isFunction() ); }
+    { assert( ValueReference<AllocationPolicy>::isFunction() ); }
 
 	template<typename AllocationPolicy>
 	FunctionReference<AllocationPolicy>& FunctionReference<AllocationPolicy>::operator=( const ValueReference<AllocationPolicy>& rhs )
 	{
 		ValueReference<AllocationPolicy>::operator = ( rhs );
-		assert( isFunction() );
+        assert( ValueReference<AllocationPolicy>::isFunction() );
 		return *this;
 	}
 
 	template<typename AllocationPolicy>
 	FunctionReference<AllocationPolicy>::FunctionReference( const ValueReference<AllocationPolicy>& rhs )
 		: ValueReference<AllocationPolicy>(rhs)
-	{ assert( isFunction() ); }
+    { assert( ValueReference<AllocationPolicy>::isFunction() ); }
 
 	template<typename AllocationPolicy>
 	FunctionReference<AllocationPolicy>& FunctionReference<AllocationPolicy>::operator=( const FunctionReference& rhs )
 	{
 		ValueReference<AllocationPolicy>::operator = ( rhs );
-		m_Envinroment = rhs.m_Environment;
+        FunctionReference<AllocationPolicy>::m_Environment = rhs.m_Environment;
 		return *this;
 	}
 
 	template<typename AllocationPolicy>
 	FunctionReference<AllocationPolicy>::FunctionReference( const FunctionReference& rhs )
-		: ValueReference<AllocationPolicy>( rhs ), m_Envinroment( rhs.m_Environment )
-	{}
+        : ValueReference<AllocationPolicy>( rhs )
+    { FunctionReference<AllocationPolicy>::m_Environment = rhs.m_Environment; }
 
 	template<typename AllocationPolicy>
 	FunctionReference<AllocationPolicy>::FunctionReference()

@@ -120,8 +120,8 @@ int main( int, char** )
 	assert( mani::details::functional_utils::deduce_signature( test_1 ).arg_count == 1 );
 	assert( mani::details::functional_utils::deduce_signature( test_2 ).arg_count == 2 );
 
-	mani::details::functional_utils::apply( mani::details::functional_utils::deduce_signature( test_0 ), NULL, test_0  );
-	assert( 9 == mani::details::functional_utils::apply( mani::details::functional_utils::deduce_signature( test_1 ), NULL, test_1, mani::details::type_utils::make_tuple<int>( 3 )  ) );
+    mani::details::functional_utils::apply( mani::details::functional_utils::deduce_signature( test_0 ), reinterpret_cast<mani::details::type_utils::NullType*>(NULL), test_0  );
+    assert( 9 == mani::details::functional_utils::apply( mani::details::functional_utils::deduce_signature( test_1 ), reinterpret_cast<mani::details::type_utils::NullType*>(NULL), test_1, mani::details::type_utils::make_tuple<int>( 3 )  ) );
 
 	bound_test b_test;
 	assert( 13 == 

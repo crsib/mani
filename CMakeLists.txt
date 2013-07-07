@@ -29,6 +29,7 @@ SET( mani_INCLUDES
 	./mani/details/functional_utils/Signature.h
 	./mani/details/functional_utils/Parameter.h
 	./mani/details/functional_utils/BinderProxy.h
+	./mani/details/functional_utils/Upvalue.h
 
 	./mani/details/type_utils/Base.h
 	./mani/details/type_utils/Out.h
@@ -101,6 +102,7 @@ source_group( "mani\\details\\functional_utils" FILES
 	./mani/details/functional_utils/Signature.h
 	./mani/details/functional_utils/Parameter.h
 	./mani/details/functional_utils/BinderProxy.h
+	./mani/details/functional_utils/Upvalue.h
 )
 
 source_group( "mani\\reg" FILES

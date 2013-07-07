@@ -16,6 +16,7 @@
 #define mani_details_functional_BinderProxy_h__
 
 #include "mani/details/functional_utils/Parameter.h"
+#include "mani/details/functional_utils/Upvalue.h"
 #include "mani/details/functional_utils/DeduceSignature.h"
 
 namespace mani
@@ -26,7 +27,7 @@ namespace mani
 		{
 			namespace __private
 			{
-				template<typename TSignature>
+				template<typename TSignature, int upvalues>
 				struct BinderProxy
 				{
 					template<typename T, typename Tuple, typename FnPtr>
@@ -47,6 +48,7 @@ namespace mani
 					{
 						static int push_result( lua_State* state, typename TSignature::class_t* __this, FnPtr fn, Tuple& params )
 						{
+							using namespace mani;
 							push_to_stack( state, apply( TSignature(), __this, fn, params ) ); 
 							return 1;
 						}
@@ -76,7 +78,7 @@ namespace mani
 						typename TSignature::class_t* __this = get_from_stack<typename TSignature::class_t*>( state, 1 );
 
 						Tuple< typename TSignature::parameters_t > params;
-						mani::details::functional_utils::from_stack< Length< typename TSignature::parameters_t >::result >( state, params, 1 );
+						mani::details::functional_utils::from_stack< Length< typename TSignature::parameters_t >::result, upvalues >( state, params, 1 );
 						int count = rv_proxy_t< typename TSignature::return_value_t, Tuple< typename TSignature::parameters_t >, typename TSignature::pointer_t>::push_result( state, __this, fn, params );
 						count += mani::details::functional_utils::to_stack< Length< typename TSignature::parameters_t >::result >( state, params );
 
@@ -87,8 +89,8 @@ namespace mani
 					{
 						using namespace mani::details::type_utils;
 						using namespace mani::details::functional_utils;
-
-						if( Length< typename TSignature::parameters_t >::result < lua_gettop( state) )
+						 
+						if( (Length< typename TSignature::parameters_t >::result - upvalues) <  lua_gettop( state ) ) 
 						{
 							lua_pushstring( state, "Invalid argument count. Binder does not support the default nil." );
 							lua_error( state );
@@ -105,10 +107,16 @@ namespace mani
 						}
 
 						Tuple< typename TSignature::parameters_t > params;
-						mani::details::functional_utils::from_stack< Length< typename TSignature::parameters_t >::result >( state, params );
-						int count = rv_proxy_t< typename TSignature::return_value_t, Tuple< typename TSignature::parameters_t >, typename TSignature::pointer_t>::push_result( state, NULL, fn, params );
-						count += mani::details::functional_utils::to_stack< Length< typename TSignature::parameters_t >::result >( state, params );
 
+						// allow the compiler to optimize this branch out when there are no upvalues
+						if( upvalues > 0 )
+							mani::details::functional_utils::read_upvalue< upvalues, 0 >( state, params );
+
+						mani::details::functional_utils::from_stack< Length< typename TSignature::parameters_t >::result - upvalues, upvalues >( state, params );
+						int count = rv_proxy_t< typename TSignature::return_value_t, Tuple< typename TSignature::parameters_t >, typename TSignature::pointer_t>::push_result( state, NULL, fn, params );
+						assert( lua_gettop( state ) >= count );
+						count += mani::details::functional_utils::to_stack< Length< typename TSignature::parameters_t >::result >( state, params );
+						assert( lua_gettop( state ) >= count );
 						return count; 
 					}
 
@@ -122,10 +130,10 @@ namespace mani
 				};
 			}
 
-			template<typename TSignature>
+			template<int upvalues, typename TSignature>
 			lua_CFunction binder_proxy( TSignature  )
 			{
-				return __private::BinderProxy<TSignature>::call_proxy;
+				return __private::BinderProxy<TSignature, upvalues>::call_proxy;
 			}
 		}
 	}

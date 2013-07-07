@@ -15,34 +15,51 @@
 #ifndef mani_reg_impl_Module_h__
 #define mani_reg_impl_Module_h__
 
+#include "cstdio"
+
 namespace mani
 {
 	namespace reg
 	{
 		namespace __private
 		{
-			template<typename LuaInterpType>
+			template<typename LuaInterpType, typename StringType>
 			struct ModuleImpl
 			{
-				template<typename StringType>
 				ModuleImpl( const LuaInterpType& lua, const StringType& module_name )
-					: Lua( lua )
+					: Lua( lua ), ModuleName( module_name )
 				{
+					StackTop = -1;
+				}
+
+				~ModuleImpl()
+				{ 
+					if(StackTop >= 0)
+					{
+						lua_settop( Lua.getVirtualMachine(), StackTop ); 
+						printf("~ModuleImpl %s\n", ModuleName); 
+					}
+				}
+
+				int operator () ( ... ) 
+				{ 
+					printf( "Creating module %s\n", ModuleName );
 					lua_State* l = Lua.getVirtualMachine();
 					StackTop = lua_gettop( l );
 
 					impl::check_stack_top_table( l );
-					if( impl::push_table( l, module_name ) )
+					lua_getmetatable( l, -1 );
+					if( impl::push_table( l, ModuleName ) )
 					{
 						details::StackGuard guard( l );
 
-						typename LuaInterpType::Table mod_reg = lua.getVMModulesRegistry();
+						typename LuaInterpType::Table mod_reg = Lua.getVMModulesRegistry();
 						int next_idx = mod_reg.getLength() + 1;
 
-                        typedef typename LuaInterpType::Table table_t;
+						typedef typename LuaInterpType::Table table_t;
 
-                        table_t module_meta = table_t::new_table( lua );
-                        module_meta.setMetaField( table_t::MetaIndex, module_meta );
+						table_t module_meta = table_t::new_table( Lua );
+						module_meta.setMetaField( table_t::MetaIndex, module_meta );
 
 						push_to_stack( l, module_meta );
 
@@ -52,25 +69,23 @@ namespace mani
 
 						lua_setmetatable( l, -2 );
 
-                        mod_reg.setField( next_idx, module_meta );
+						mod_reg.setField( next_idx, module_meta );
 					}
+					return 0;	
 				}
 
-				~ModuleImpl()
-				{ lua_settop( Lua.getVirtualMachine(), StackTop ); }
-
-				int operator [] ( int )
-				{ return 0;	}
+				//operator int() const { return -1; }
 
 				const LuaInterpType&   Lua;
-				int              StackTop;
+				int                    StackTop;
+				const StringType&      ModuleName;
 			};
 		}
 
 		template<typename LuaInterpType, typename StringType>
-        __private::ModuleImpl<LuaInterpType> module( const LuaInterpType& lua, const StringType& module_name )
+        __private::ModuleImpl<LuaInterpType, StringType> module( const LuaInterpType& lua, const StringType& module_name )
 		{
-			return __private::ModuleImpl<LuaInterpType>( lua, module_name );
+			return __private::ModuleImpl<LuaInterpType, StringType>( lua, module_name );;
 		}
 	}
 }

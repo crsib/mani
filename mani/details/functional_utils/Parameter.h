@@ -44,7 +44,8 @@ namespace mani
 
 					static void to_stack( lua_State* l, mani::out<T>& p, int& count )
 					{
-						mani::push_to_stack( l, p.value );
+						using namespace mani;
+						push_to_stack( l, p.value );
 						++count;
 					}
 				};
@@ -60,11 +61,12 @@ namespace mani
 
 					static void from_stack( lua_State* l, int idx, typename mani::details::type_utils::Traits<T>::referred_type_t _val, int& next_idx )
 					{
-						_val = mani::get_from_stack<T>( l, idx );
+						using namespace mani;
+						_val = get_from_stack<T>( l, idx );
 						++next_idx;
 					}
 
-					static void to_stack( lua_State* l, T, int&  )
+					static void to_stack( lua_State* l, const T&, int&  )
 					{}
 				};
 
@@ -119,11 +121,11 @@ namespace mani
 				};
 			}
 
-			template< int length, typename TupleType >
+			template< int length, int tfrom, typename TupleType >
 			void    from_stack( lua_State* l, TupleType& tuple, int from_index = 1 )
 			{
 				int idx = from_index;
-				__private::from_stack<TupleType, 0, length>::run( l, tuple, idx );
+				__private::from_stack<TupleType, tfrom, length>::run( l, tuple, idx );
 			}
 
 			template< int length, typename TupleType >

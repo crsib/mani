@@ -187,7 +187,7 @@ namespace mani
 		bool error_occured = 0 != luaL_loadbuffer( lua, string, size, details::get_buffer_id( string, size ) );
 		if( !error_occured )
 			error_occured = 0 != lua_pcall( lua, 0, LUA_MULTRET, 0);
-
+		
 		return Result( *this, lua_gettop( lua ) - top, error_occured );
 	}
 

@@ -24,12 +24,17 @@ namespace mani
 		namespace impl
 		{
 			// If the stack top is a a table - does nothing
-			// Otherwise - pushes _G on to the stack
+			// Otherwise - pushes _G on to the stack.
+			// Return true, if the global was pushed onto the stack
 			inline 
-			void       check_stack_top_table( lua_State* l )
+			bool       check_stack_top_table( lua_State* l )
 			{
 				if( !lua_gettop( l ) || !lua_istable( l, -1 ) )
+				{
 					lua_pushvalue( l, LUA_GLOBALSINDEX );
+					return true;
+				}
+				return false;
 			}
 
 			// Requires a table on the stack top

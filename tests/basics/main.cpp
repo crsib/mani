@@ -33,6 +33,7 @@ void __cdecl threadproc(void* lparam)
 
 int test_1( int b )
 {
+	printf( "test_1 %i\n", b*b );
 	return b * b;
 }
 
@@ -51,6 +52,12 @@ struct bound_test
 		return a * a - b * c;
 	}
 };
+
+int lua_fn( lua_State* l )
+{
+	lua_pushvalue( l, lua_upvalueindex(1) );
+	return 0;
+}
 
 int main( int, char** )
 {
@@ -127,18 +134,32 @@ int main( int, char** )
 	assert( 13 == 
 		mani::details::functional_utils::apply( mani::details::functional_utils::deduce_signature( &bound_test::test ), &b_test, &bound_test::test, mani::details::type_utils::make_tuple< int, int, int >( 5, 4, 3 ) ) );
 
-	mani::details::functional_utils::binder_proxy( mani::details::functional_utils::deduce_signature( test_1 ) );
+	mani::Interpreter::Table::global( lua ).setField("bind_test",  mani::details::functional_utils::binder_proxy<1>( mani::details::functional_utils::deduce_signature( test_1 ) ) );
+	//assert( lua.doString("bind_test(2)").get<int>() == 4 );
 	//mani::details::functional_utils::binder_proxy( mani::details::functional_utils::deduce_signature( &bound_test::test ) );
 
-	mani::reg::module(lua, "test")
-	[
-		5, 6, 7 
-	];
+ 	mani::reg::function( lua, "testfn", test_1 );
+ 	mani::reg::function<1>( lua, "testbfn", test_1 ).upvalue(2);
+ 
+ 	mani::reg::cfunction( lua, "ltestfn", lua_fn );
+ 	mani::reg::cfunction<1>( lua, "ltestbfn", lua_fn );
+
+	printf( "res %i\n", lua.doString("return testbfn()").get<int>() );
+	assert( lua.doString("return testbfn()").get<int>() == 4 );
 
 	mani::reg::module(lua, "test")
-	[
-		5, 6, 7 
-	];
+	(
+		mani::reg::module( lua, "bound")
+		(
+			mani::reg::module( lua, "internal")
+		)
+	);
 
+ 	mani::reg::module(lua, "test")
+ 	(
+ 		5, 6, 7 
+ 	);
+
+	system( "pause");
 	return 0;
 }

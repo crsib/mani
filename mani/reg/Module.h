@@ -14,20 +14,18 @@
 #ifndef mani_reg_Module_h__
 #define mani_reg_Module_h__
 
-#include "mani/Interpreter.h"
-
 namespace mani
 {
 	namespace reg
 	{
 		namespace __private
 		{
-			template<typename LuaInterpType>
+			template<typename LuaInterpType, typename StringType>
 			struct ModuleImpl;
 		}
 		
 		template<typename LuaInterpType, typename StringType>
-		__private::ModuleImpl<LuaInterpType>  module( const LuaInterpType& lua, const StringType& module_name );
+		__private::ModuleImpl<LuaInterpType, StringType>  module( const LuaInterpType& lua, const StringType& module_name );
 	}
 }
 

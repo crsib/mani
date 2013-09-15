@@ -3,4 +3,4 @@ vanir = vanir
 [subpaths]
 (ssh://hg@bitbucket\.org/[^/]+/[^/]+)/(.*) = \1-\2
 (https://(?:[^@]+@)?bitbucket\.org/[^/]+/[^/]+)/(.*) = \1-\2
-
+(https://(?:[^@]+@)?bitbucket\.org/)mani/vanir = \1/vanir_types

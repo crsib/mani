@@ -1,1 +1,4 @@
 vanir = vanir 
+
+[subpaths]
+https://bitbucket\.org/crsib/mani/vanir = https://bitbucket.org/crsib/vanir_types

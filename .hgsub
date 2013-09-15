@@ -1,4 +1,6 @@
 vanir = vanir 
 
 [subpaths]
-https://bitbucket\.org/crsib/mani/vanir = https://bitbucket.org/crsib/vanir_types
+(ssh://hg@bitbucket\.org/[^/]+/[^/]+)/(.*) = \1-\2
+(https://(?:[^@]+@)?bitbucket\.org/[^/]+/[^/]+)/(.*) = \1-\2
+
